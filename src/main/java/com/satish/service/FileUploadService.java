@@ -22,7 +22,7 @@ public class FileUploadService {
 
        Map<String,Object> imageUploadResult= cloudinary.uploader()
                .upload(file.getBytes(), ObjectUtils.asMap("resource_type","image"));
-       log.info("Inside File Upload Service Satish Prajapati- uploadImage() {} ", imageUploadResult.get("secure_url").toString());
+       log.info("Inside File Upload Service- uploadImage() {} ", imageUploadResult.get("secure_url").toString());
        return Map.of("imageUrl",imageUploadResult.get("secure_url").toString());
     }
 }

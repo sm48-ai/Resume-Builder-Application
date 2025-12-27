@@ -5,6 +5,7 @@ import com.satish.dto.LoginRequest;
 import com.satish.repository.UserRepository;
 import com.satish.dto.AuthResponse;
 import com.satish.dto.RegisterRequest;
+import com.satish.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,8 @@ public class AuthService {
     private final EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final JwtUtils jwtUtils;
 
     @Value("${app.base.url:http://localhost:8080}")
     private String appBaseUrl;
@@ -105,7 +108,7 @@ public class AuthService {
        if(!existingUser.isEmailVerified()){
            throw new RuntimeException("Please Verify Your Email before Logging iun..");
        }
-       String token="jwtToken";
+       String token=jwtUtils.generateToken(existingUser.getId());
        AuthResponse returnValue=toResponse(existingUser);
        returnValue.setToken(token);
 

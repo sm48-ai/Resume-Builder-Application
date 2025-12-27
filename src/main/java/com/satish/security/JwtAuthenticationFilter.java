@@ -37,12 +37,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String token=null;
         String userId=null;
-        if (authHeader !=null && authHeader.startsWith("Bearer")){
+        if (authHeader !=null && authHeader.startsWith("Bearer ")){
            token= authHeader.substring(7);
            try{
-               jwtUtils.getUserIdFromToken(token);
+               userId=jwtUtils.getUserIdFromToken(token);
            } catch (Exception e) {
-               log.error("Token is not Valid/Avvailable");
+               log.error("Token is not Valid/Available");
 
            }
         }

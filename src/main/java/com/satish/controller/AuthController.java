@@ -46,10 +46,14 @@ public class AuthController {
        Map<String,String> response=fileUploadService.uploadSingleImage(file);
        return ResponseEntity.ok(response);
     }
-    @PostMapping("/login")
+    @PostMapping(LOGIN)
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
+    }
+    @GetMapping(AUT_VALIDATION)
+    public String testValidationToken(){
+        return "Token Validation is Working";
     }
 
 }

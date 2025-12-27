@@ -1,5 +1,6 @@
 package com.satish.config;
 
+import com.satish.security.JwtAuthenticationEntryPoint;
 import com.satish.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,9 @@ public class SecurityConfig {
                 ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex->ex.authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
+
         return http.build();
     }
 

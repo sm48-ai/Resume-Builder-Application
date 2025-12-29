@@ -7,5 +7,7 @@ public class AppConstants {
     public static final  String UPLOAD_IMAGE="/upload-image";
     public static final  String LOGIN="/login";
     public static final  String AUT_VALIDATION="/validate";
+    public static final  String SEND_VERIFICATION="/send-verification";
+    public static final  String PROFILE="/profile";
 
 }

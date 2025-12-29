@@ -10,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.satish.util.AppConstants.*;
 
@@ -54,6 +56,24 @@ public class AuthController {
     @GetMapping(AUT_VALIDATION)
     public String testValidationToken(){
         return "Token Validation is Working";
+    }
+    @PostMapping(SEND_VERIFICATION)
+    public ResponseEntity<?> resendVerification(@RequestBody Map<String, String> body){
+        String email=body.get("email");
+        if(Objects.isNull(email)){
+            return ResponseEntity.ok(Map.of("message","Email is Required"));
+        }
+        authService.resendVerification(email);
+        return ResponseEntity.ok(Map.of("success",true,"message","Verification Email Send"));
+    }
+    @GetMapping(PROFILE)
+    public ResponseEntity<?> getProfile(Authentication authentication){
+       Object principleObject= authentication.getPrincipal();
+
+      AuthResponse currentProfile= authService.getProfile(principleObject);
+
+       return ResponseEntity.ok(currentProfile);
+
     }
 
 }

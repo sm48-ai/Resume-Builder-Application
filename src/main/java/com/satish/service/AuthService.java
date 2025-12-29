@@ -34,7 +34,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request){
         log.info("Inside AuthService: register() {}", request);
         if(userRepository.existsByEmail(request.getEmail())){
-            throw new RuntimeException("User already Exists with this email");
+            throw new RuntimeException("User already Exists with this email User right Email");
         }
         User newUser=toDocument(request);
         userRepository.save(newUser);
@@ -113,5 +113,24 @@ public class AuthService {
        returnValue.setToken(token);
 
        return returnValue;
+    }
+
+    public void resendVerification(String email) {
+        User user=userRepository.findByEmail(email)
+                .orElseThrow(()->new RuntimeException("User not found"));
+        if(user.isEmailVerified()){
+            throw new RuntimeException("Email is already verified");
+        }
+        user.setVerificationToken(UUID.randomUUID().toString());
+        user.setVerificationExpires(LocalDateTime.now().plusHours(24));
+
+        userRepository.save(user);
+
+        sendVerificationEmail(user);
+    }
+
+    public AuthResponse getProfile(Object principleObject) {
+        User existingUser=(User) principleObject;
+        return toResponse(existingUser);
     }
 }

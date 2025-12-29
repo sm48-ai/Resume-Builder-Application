@@ -103,7 +103,7 @@ public class AuthService {
        User existingUser= userRepository.findByEmail(request.getEmail())
                 .orElseThrow(()->new UsernameNotFoundException("Invalid Email or Password"));
        if(!passwordEncoder.matches(request.getPassword(),existingUser.getPassword())){
-           throw new UsernameNotFoundException("Invalid Email or Password");
+           throw new UsernameNotFoundException("Invalid Email or Password Hello How are you");
        }
        if(!existingUser.isEmailVerified()){
            throw new RuntimeException("Please Verify Your Email before Logging iun..");
